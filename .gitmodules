@@ -1,0 +1,8 @@
+[submodule "poky"]
+	path = poky
+	url = git://git.yoctoproject.org/poky.git
+	branch = origin/krogoth
+[submodule "meta-raspberrypi"]
+	path = meta-raspberrypi
+	url = https://github.com/giraldeau/meta-raspberrypi.git
+	branch = origin/preempt-rt
