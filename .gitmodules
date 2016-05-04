@@ -6,3 +6,6 @@
 	path = meta-raspberrypi
 	url = https://github.com/giraldeau/meta-raspberrypi.git
 	branch = origin/preempt-rt
+[submodule "meta-openembedded"]
+	path = meta-openembedded
+	url = git://git.openembedded.org/meta-openembedded
