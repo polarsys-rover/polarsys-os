@@ -25,6 +25,9 @@ MIRROR_URL=${MIRROR_URL:-${DEFAULT_MIRROR}}
 export TZ=UTC
 R=${BUILDDIR}/chroot
 
+DATE="$(date +%Y%m%d)"
+IMG="$BASEDIR/ubuntu-rpi2-${RELEASE}-${DATE}.img"
+
 do_mount() {
     echo "mount proc et. al."
     # when mounting with "mount -t proc none $R/proc" chromium (yes, the browser)
@@ -215,11 +218,30 @@ EOM
     do_umount
 }
 
+do_loop_mount() {
+    IMAGE="$1"
+    VFAT_LOOP="$(losetup -o 1M --sizelimit 64M -f --show ${IMAGE})"
+    EXT4_LOOP="$(losetup -o 65M --sizelimit 1727M -f --show ${IMAGE})"
+    MOUNTDIR="$BUILDDIR/mount"
+    mkdir -p "$MOUNTDIR"
+    mount "$EXT4_LOOP" "$MOUNTDIR"
+    mkdir -p "$MOUNTDIR/boot/firmware"
+    mount "$VFAT_LOOP" "$MOUNTDIR/boot/firmware"
+    echo "image directory: ${MOUNTDIR}"
+}
+
+do_loop_umount() {
+    IMAGE="$1"
+    for LOOP_FILE in $(losetup -j ${IMAGE} | awk {'print $1'} | cut -d: -f1); do
+        echo "$LOOP_FILE"
+        umount "$LOOP_FILE"
+        losetup -d "$LOOP_FILE"
+    done
+}
+
 do_make_image() {
     # Build the image file
     # Currently hardcoded to a 1.75GiB image
-    DATE="$(date +%Y%m%d)"
-    IMG="$BASEDIR/ubuntu-rpi2-${RELEASE}-${DATE}.img"
 
     dd if=/dev/zero of="${IMG}" bs=1M count=1
     dd if=/dev/zero of="${IMG}" bs=1M count=0 seek=1792
@@ -302,10 +324,19 @@ umount)
 shell)
     do_mount
     chroot $R /bin/bash
+    do_umount
     ;;
 image)
 	echo "make image"
     do_make_image
+    ;;
+loop_mount)
+	echo "mount loopback"
+    do_loop_mount ${IMG}
+    ;;
+loop_umount)
+	echo "umount loopback"
+    do_loop_umount ${IMG}
     ;;
 *)
     echo "unkown command $1"
