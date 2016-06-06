@@ -21,7 +21,7 @@ Each time a submodule changes, re-run `git submodule update` to synchronize its 
 
 ## Set the Raspberry Pi version
 
-The config file `build/conf/local.conf` is added to the git repository and specifies the Raspberry Pi 2 by default. To build for a different version of the Raspberry Pi, specify it in the file `build/conf/local.inc`
+The config file `build/conf/local.conf` is added to the git repository and specifies the Raspberry Pi 2 by default. To build for a different version of the Raspberry Pi, specify it in the file `build/conf/local.inc`. This file should not be committed to the repository. You can base your local configuration on the file `local.inc.example`.
 
 ## Build the image
 
@@ -29,7 +29,7 @@ Building the image follow the standard Yocto procedure:
 
 ```shell
 source poky/oe-init-build-env
-bitbake rpi-basic-image
+bitbake polarsys-img
 ```
 
 The image will be under `build/tmp/deploy/images/raspberrypi3`, and the latest image can be written to an sdcard with dd:
@@ -37,7 +37,7 @@ The image will be under `build/tmp/deploy/images/raspberrypi3`, and the latest i
 dd if=build/tmp/deploy/images/raspberrypi3/polarsys-img-raspberrypi3.rpi-sdimg of=/dev/sdX bs=1M
 ```
 
-Replace the `raspberrypi3` with your current machine name (i.e. raspberrypi2).
+Replace the `raspberrypi3` with your current machine name (i.e. raspberrypi2) and /dev/sdX with your sdcard device. __WARNING__: double check your sdcard device to avoid formatting your main drive. Depending on the type of reader, the sddard may appear as /dev/sdX or /dev/mmc0blk. After inserting the sdcard, check dmesg to find the detected device.
 
 Reboot the Raspberry Pi with the sdcard. The default user is root without password.
 
