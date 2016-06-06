@@ -1,0 +1,6 @@
+# Rename this file "local.inc" to customize your local build. The local.inc
+# file should not be committed.
+
+# Change to match your Raspberry Pi board version
+# MACHINE = "raspberrypi2"
+
