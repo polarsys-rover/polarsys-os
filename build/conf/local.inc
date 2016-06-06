@@ -1,2 +1,2 @@
-# Override the raspberrypi board version
-# MACHINE = "raspberrypi3"
+# Change to match your Raspberry Pi board version
+# MACHINE = "raspberrypi2"
