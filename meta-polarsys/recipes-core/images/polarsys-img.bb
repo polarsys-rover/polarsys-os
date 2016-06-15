@@ -13,5 +13,12 @@ IMAGE_INSTALL += " \
 
 SPLASH = "psplash-raspberrypi"
 
-IMAGE_FEATURES += "ssh-server-dropbear package-management splash"
+IMAGE_FEATURES += " \
+    ssh-server-dropbear \
+    package-management \
+    splash \
+    eclipse-debug \
+    tools-debug \
+    tools-profile \
+"
 
