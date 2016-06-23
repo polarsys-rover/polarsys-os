@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=62ddc846179e908dc0c8efec4a42ef20"
 PR = "r0"
 
 SRC_URI = "http://mosquitto.org/files/source/mosquitto-${PV}.tar.gz \
+           file://mosquitto-server \
 "
 
 SRC_URI[md5sum] = "67943e2c5afebf7329628616eb2c41c5"
@@ -32,6 +33,9 @@ do_install() {
     chrpath -d ${D}${bindir}/mosquitto*
     chrpath -d ${D}${sbindir}/mosquitto
 
+    install -d ${D}${sysconfdir}/init.d/
+    install -m 0755 ${WORKDIR}/mosquitto-server ${D}${sysconfdir}/init.d/
+
     # see below
     # install -m 0644 lib/libmosquitto.a ${D}${libdir}/
 }
@@ -40,7 +44,8 @@ PACKAGES += "libmosquitto1 libmosquittopp1 ${PN}-clients ${PN}-python"
 
 FILES_${PN} = "${sbindir}/mosquitto \
                ${bindir}/mosquitto_passwd \
-               ${sysconfdir}/mosquitto \
+               ${sysconfdir}/init.d/mosquitto-server \
+               ${sysconfdir}/mosquitto/* \
 "
 
 FILES_libmosquitto1 = "${libdir}/libmosquitto.so.1*"
@@ -55,3 +60,14 @@ FILES_${PN}-clients = "${bindir}/mosquitto_pub \
 # FILES_${PN}-staticdev += "${libdir}/libmosquitto.a"
 
 FILES_${PN}-python = "/usr/lib/python2.7/site-packages"
+
+inherit useradd update-rc.d
+# mosquitto-server requires the mosquitto user
+USERADD_PACKAGES = "${PN}"
+USERADD_PARAM_${PN} = "mosquitto"
+
+INITSCRIPT_PACKAGES = "${PN}"
+INITSCRIPT_NAME_${PN} = "mosquitto-server"
+INITSCRIPT_PARAMS_${PN} = "defaults 9"
+
+
