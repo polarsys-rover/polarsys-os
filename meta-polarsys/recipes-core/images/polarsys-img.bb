@@ -4,12 +4,20 @@ include recipes-core/images/core-image-minimal.bb
 # Include modules in rootfs
 IMAGE_INSTALL += " \
     dash \
-	file \
-	ldd \
-	libstdc++ \
-	screen \
+    file \
+    ldd \
+    libstdc++ \
+    screen \
     kernel-modules \
-    "
+    rt-tests \
+    stress \
+    python-subprocess \
+    python-argparse \
+    mosquitto \
+    libmosquitto1 \
+    libmosquittopp1 \
+    mosquitto-clients \
+"
 
 SPLASH = "psplash-raspberrypi"
 
