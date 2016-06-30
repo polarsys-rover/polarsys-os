@@ -41,6 +41,39 @@ Replace the `raspberrypi3` with your current machine name (i.e. raspberrypi2) an
 
 Reboot the Raspberry Pi with the sdcard. The default user is root without password.
 
+## Populate the SDK
+
+Once you have the image running on your Raspberry Pi, you'll probably want to start writing awesome C/C++ applications that will run on it.  For this, you need the appropriate cross-compiler and setup with the root filesystem of the target.  It turns out that Yocto can generate an SDK tailor-made for our system.  This command will generate an installer for that SDK:
+
+    $ bitbake polarsys-img -c populate_sdk
+
+and this command will install it on our development machine.
+
+    $ sudo tmp/deploy/sdk/poky-glibc-x86_64-polarsys-img-cortexa7hf-neon-vfpv4-toolchain-2.1+snapshot.sh
+
+This will install the SDK by default in `/opt/poky/2.1+snapshot`.  You can also omit `sudo` and install it in a location to which your non-root user has write access.
+
+As stated when it finishes installing, you need to source the environment setup script in order to start using the SDK:
+
+    $ . /opt/poky/2.1+snapshot/environment-setup-cortexa7hf-neon-vfpv4-poky-linux-gnueabi
+
+You can then happily do:
+
+```
+$ cat <<EOF > helloworld.c
+#include <stdio.h>
+
+int main(void) {
+  printf("Hello, world!\n");
+  return 0;
+}
+EOF
+$ $CC $CFLAGS $LDFLAGS helloworld.c -o helloworld
+$ file helloworld
+helloworld: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 2.6.32, BuildID[sha1]=7d90cff202bd28b61bb36cf2921257f0ee75a8d0, not stripped
+```
+CC, CFLAGS, LDFLAGS and a bunch of other environment variables are automatically set when sourcing the environment setup script.
+
 ## Contributing
 
 * Add package to the image in `meta-polarsys/recipes-core/images/polarsys-img.bb`
