@@ -19,6 +19,7 @@ IMAGE_INSTALL += " \
     libmosquittopp1 \
     mosquitto-clients \
     userland \
+    rtimulib \
 "
 
 SPLASH = "psplash-raspberrypi"
