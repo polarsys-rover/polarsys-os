@@ -13,6 +13,7 @@ IMAGE_INSTALL += " \
     stress \
     python-subprocess \
     python-argparse \
+    python-json \
     mosquitto \
     libmosquitto1 \
     libmosquittopp1 \
