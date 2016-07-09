@@ -20,6 +20,7 @@ IMAGE_INSTALL += " \
     mosquitto-clients \
     userland \
     rtimulib \
+    protobuf \
 "
 
 TOOLCHAIN_HOST_TASK += "nativesdk-protobuf-compiler"
