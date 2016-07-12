@@ -22,6 +22,8 @@ IMAGE_INSTALL += " \
     rtimulib \
 "
 
+TOOLCHAIN_HOST_TASK += "nativesdk-protobuf-compiler"
+
 SPLASH = "psplash-raspberrypi"
 
 IMAGE_FEATURES += " \
