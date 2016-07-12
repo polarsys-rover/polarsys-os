@@ -15,7 +15,9 @@ SRC_URI = "http://mosquitto.org/files/source/mosquitto-${PV}.tar.gz \
 SRC_URI[md5sum] = "67943e2c5afebf7329628616eb2c41c5"
 SRC_URI[sha256sum] = "1df3ae07de40b80a74cd37a7b026895c544cdd3b42c9e0719ae91623aa98c58b"
 
-DEPENDS = "openssl util-linux python"
+DEPENDS = "openssl util-linux python libwebsockets"
+
+EXTRA_OECMAKE_append = "-DWITH_WEBSOCKETS=ON"
 
 inherit cmake
 
