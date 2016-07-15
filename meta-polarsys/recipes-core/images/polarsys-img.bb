@@ -21,6 +21,7 @@ IMAGE_INSTALL += " \
     userland \
     rtimulib \
     protobuf \
+    i2c-tools \
 "
 
 TOOLCHAIN_HOST_TASK += "nativesdk-protobuf-compiler"
