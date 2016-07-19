@@ -22,6 +22,8 @@ IMAGE_INSTALL += " \
     rtimulib \
     protobuf \
     i2c-tools \
+    wpa-supplicant \
+    linux-firmware-ralink \
 "
 
 TOOLCHAIN_HOST_TASK += "nativesdk-protobuf-compiler"
