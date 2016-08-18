@@ -9,9 +9,9 @@
 [submodule "meta-openembedded"]
 	path = meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
-[submodule "rpi2-gen-image"]
-	path = rpi2-gen-image
-	url = git@github.com:drtyhlpr/rpi2-gen-image.git
+[submodule "rpi23-gen-image"]
+	path = rpi23-gen-image
+	url = https://github.com/drtyhlpr/rpi23-gen-image.git
 [submodule "linux"]
 	path = linux
 	url = git@github.com:giraldeau/linux.git
