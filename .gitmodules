@@ -14,7 +14,7 @@
 	url = https://github.com/drtyhlpr/rpi23-gen-image.git
 [submodule "linux"]
 	path = linux
-	url = git@github.com:giraldeau/linux.git
+	url = https://github.com/giraldeau/linux.git
 	branch = linux-4.4.y-rt-rebase-rpi
 [submodule "raspberrypi-tools"]
 	path = raspberrypi-tools
