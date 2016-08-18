@@ -1,0 +1,56 @@
+function polarsys_error() {
+	echo $1
+}
+
+function polarsys_usage() {
+	echo "Usage:"
+	echo "  $ source $1 <sysroot>"
+}
+
+function polarsys_setenv() {
+	local varname=$1
+	local varvalue=$2
+
+	echo "Setting $1 to $2"
+
+	export ${1}="${2}"
+}
+
+function polarsys_prepend_path() {
+	local new_path=$1
+
+	echo "Prepending ${new_path} to PATH"
+
+	export PATH="${new_path}:${PATH}"
+}
+
+if [ $# -ne 1 ]; then
+	polarsys_error "Wrong number of arguments."
+	polarsys_usage $0
+	return
+fi
+
+sysroot=$1
+
+if [ -n "$BASH_SOURCE[0]" ]; then
+	polarsys_basepath=$(readlink -f "$BASH_SOURCE[0]")
+	polarsys_basepath=$(dirname $polarsys_basepath)
+elif [[ "$0" == *"setup-environment"* ]]; then
+	polarsys_basepath=$(readlink -f $0)
+	polarsys_basepath=$(dirname $polarsys_basepath)
+else
+	error "Couldn't find the installation base path."
+	return
+fi
+
+echo "basepath is $polarsys_basepath"
+
+
+polarsys_setenv CFLAGS "--sysroot=$sysroot"
+polarsys_setenv CXXFLAGS "--sysroot=$sysroot"
+polarsys_setenv LDFLAGS "--sysroot=$sysroot"
+polarsys_setenv CONFIGURE_FLAGS "--host=arm-linux-gnueabihf --with-sysroot=$sysroot"
+polarsys_setenv PKG_CONFIG_SYSROOT_DIR "$sysroot"
+polarsys_setenv PKG_CONFIG_LIBDIR "$sysroot/usr/lib/pkgconfig:$sysroot/usr/share/pkgconfig:$sysroot/usr/lib/arm-linux-gnueabihf/pkgconfig"
+polarsys_setenv PKG_CONFIG_PATH "$sysroot/usr/lib/pkgconfig:$sysroot/usr/share/pkgconfig:$sysroot/usr/lib/arm-linux-gnueabihf/pkgconfig"
+polarsys_prepend_path "$polarsys_basepath/raspberrypi-tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin"
