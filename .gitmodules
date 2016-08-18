@@ -16,3 +16,6 @@
 	path = linux
 	url = git@github.com:giraldeau/linux.git
 	branch = linux-4.4.y-rt-rebase-rpi
+[submodule "raspberrypi-tools"]
+	path = raspberrypi-tools
+	url = https://github.com/raspberrypi/tools.git
