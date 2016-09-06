@@ -1,82 +1,76 @@
 PolarSys Operating System
 =========================
 
-[PolarSys](https://www.polarsys.org/) is an Eclipse Industry Working Group created by large industry players and by tools providers to collaborate on the creation and support of Open Source tools for the development of embedded systems.
+[PolarSys](https://www.polarsys.org/) is an Eclipse Industry Working
+Group created by large industry players and by tools providers to
+collaborate on the creation and support of Open Source tools for the
+development of embedded systems.
 
-This repository contains the Yocto configuration to build the operating system for the rover robot based on the Raspberry Pi. The image includes libraries and tools for demonstration purposes and has a preempt-rt kernel by default.
+This repository contains scripts and documentation to build the
+operating system for the rover robot based on the Raspberry Pi.  It is
+currently based on the Debian Linux distribution (Raspbian).  The image
+includes libraries and tools for demonstration purposes and has a
+preempt-rt kernel by default.
+
+The build procedure was tested on Ubuntu 16.04, but could probably be
+adapted to other version/distros.
 
 ## Initial setup
 
-The Yocto configuration requires a recent Linux build host and about 70GB of storage. The build requires a file system supporting long file names, such as EXT4. It is not compatible with FUSE ecryptfs, a popular encrypted file system for home directories.
+The build scripts have a few prerequisites:
 
-The build uses Yocto layers from other repositories. To simplify the setup, the external layers are referenced as git submodules. The first step after checkout is to initialize the submodules:
+    $ sudo apt-get install \
+        debootstrap \
+        qemu-user-static \
+        binfmt-support \
+        bmap-tools \
+        whois \
+        crossbuild-essential-armhf
 
-```shell
-cd polarsys-os/
-git submodule init
-git submodule update
-```
+This repository references other repositories through git submodules.
+You can checkout all of them using the `--recursive` flag when cloning:
 
-Each time a submodule changes, re-run `git submodule update` to synchronize its content.
+    $ git clone --recursive https://github.com/polarsys-rover/polarsys-os.git
 
-## Set the Raspberry Pi version
+or, if you have the `polarsys-os` repository already cloned:
 
-The config file `build/conf/local.conf` is added to the git repository and specifies the Raspberry Pi 2 by default. To build for a different version of the Raspberry Pi, specify it in the file `build/conf/local.inc`. This file should not be committed to the repository. You can base your local configuration on the file `local.inc.example`.
+    $ git submodule update
+    $ git submodule init
 
-## Build the image
 
-Building the image follow the standard Yocto procedure:
+## Building
 
-```shell
-source poky/oe-init-build-env
-bitbake polarsys-img
-```
+The image is built in two steps: building the kernel, and assembling the
+actual SD card image.
 
-The image will be under `build/tmp/deploy/images/raspberrypi3`, and the latest image can be written to an sdcard with dd:
-```shell
-dd if=build/tmp/deploy/images/raspberrypi3/polarsys-img-raspberrypi3.rpi-sdimg of=/dev/sdX bs=1M
-```
+### Building the kernel
 
-Replace the `raspberrypi3` with your current machine name (i.e. raspberrypi2) and /dev/sdX with your sdcard device. __WARNING__: double check your sdcard device to avoid formatting your main drive. Depending on the type of reader, the sddard may appear as /dev/sdX or /dev/mmc0blk. After inserting the sdcard, check dmesg to find the detected device.
+To build the kernel, simply run the `polarsys-build-kernel.sh` script:
 
-Reboot the Raspberry Pi with the sdcard. The default user is root without password.
+    $ ./polarsys-build-kernel.sh
 
-## Populate the SDK
+The build artifacts will be in the `linux` subdirectory, and will
+automatically be picked up by the next step.
 
-Once you have the image running on your Raspberry Pi, you'll probably want to start writing awesome C/C++ applications that will run on it.  For this, you need the appropriate cross-compiler and setup with the root filesystem of the target.  It turns out that Yocto can generate an SDK tailor-made for our system.  This command will generate an installer for that SDK:
+### Building the image
 
-    $ bitbake polarsys-img -c populate_sdk
+To build the image, run the `polarsys-build-image.sh` as root:
 
-and this command will install it on our development machine.
+    $ sudo ./polarsys-build-image.sh
 
-    $ sudo tmp/deploy/sdk/poky-glibc-x86_64-polarsys-img-cortexa7hf-neon-vfpv4-toolchain-2.1+snapshot.sh
+If everything goes right, the resulting image will be found in the
+`rpi23-gen-image/images/jessie` subfolder.
 
-This will install the SDK by default in `/opt/poky/2.1+snapshot`.  You can also omit `sudo` and install it in a location to which your non-root user has write access.
+### Flashing the image
 
-As stated when it finishes installing, you need to source the environment setup script in order to start using the SDK:
+To copy the image on an SD card, you can use either dd or bmaptool.
 
-    $ . /opt/poky/2.1+snapshot/environment-setup-cortexa7hf-neon-vfpv4-poky-linux-gnueabi
+    $ sudo bmaptool copy rpi23-gen-image/images/jessie/2016-09-06-debian-jessie.img <SD card device>
 
-You can then happily do:
+or
 
-```
-$ cat <<EOF > helloworld.c
-#include <stdio.h>
+    $ sudo dd if=rpi23-gen-image/images/jessie/2016-09-06-debian-jessie.img of=<SD card device>
 
-int main(void) {
-  printf("Hello, world!\n");
-  return 0;
-}
-EOF
-$ $CC $CFLAGS $LDFLAGS helloworld.c -o helloworld
-$ file helloworld
-helloworld: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 2.6.32, BuildID[sha1]=7d90cff202bd28b61bb36cf2921257f0ee75a8d0, not stripped
-```
-CC, CFLAGS, LDFLAGS and a bunch of other environment variables are automatically set when sourcing the environment setup script.
+## Booting the image
 
-## Contributing
-
-* Add package to the image in `meta-polarsys/recipes-core/images/polarsys-img.bb`
-* Add any required layer in `build/conf/bblayers.conf`
-* Add any external repository as git submodule inside the top directory
-
+The default username is `pi` and the default password is `raspberry`.
