@@ -9,6 +9,8 @@ APT_INCLUDES=" \
     build-essential \
     libmosquittopp-dev \
     pkg-config \
+    protobuf-compiler \
+    libprotobuf-dev \
     " \
 APT_PROXY=$PROXY \
 BUILD_KERNEL=true \
