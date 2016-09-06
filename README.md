@@ -65,11 +65,11 @@ If everything goes right, the resulting image will be found in the
 
 To copy the image on an SD card, you can use either dd or bmaptool.
 
-    $ sudo bmaptool copy rpi23-gen-image/images/jessie/2016-09-06-debian-jessie.img <SD card device>
+    $ sudo bmaptool copy rpi23-gen-image/images/jessie/<date>-debian-jessie.img <SD card device>
 
 or
 
-    $ sudo dd if=rpi23-gen-image/images/jessie/2016-09-06-debian-jessie.img of=<SD card device>
+    $ sudo dd if=rpi23-gen-image/images/jessie/<date>-debian-jessie.img of=<SD card device>
 
 ## Booting the image
 
