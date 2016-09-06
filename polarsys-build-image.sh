@@ -8,9 +8,11 @@ RPI_MODEL=2 \
 APT_INCLUDES=" \
     build-essential \
     libmosquittopp-dev \
+    libmosquitto-dev \
     pkg-config \
     protobuf-compiler \
     libprotobuf-dev \
+    libboost-program-options-dev \
     " \
 APT_PROXY=$PROXY \
 BUILD_KERNEL=true \
