@@ -6,16 +6,16 @@ PROXY=http://127.0.0.1:3142
 
 RELEASE="stretch" \
 RPI_MODEL=2 \
-APT_INCLUDES=" \
-    build-essential \
-    libmosquittopp-dev \
-    libmosquitto-dev \
-    mosquitto \
-    mosquitto-clients \
-    pkg-config \
-    protobuf-compiler \
-    libprotobuf-dev \
-    libboost-program-options-dev \
+APT_INCLUDES="
+    build-essential
+    libmosquittopp-dev
+    libmosquitto-dev
+    mosquitto
+    mosquitto-clients
+    pkg-config
+    protobuf-compiler
+    libprotobuf-dev
+    libboost-program-options-dev
     libelf-dev
     git
     libglib2.0-dev
