@@ -9,6 +9,7 @@ RPI_MODEL=2 \
 APT_INCLUDES="
     autoconf
     automake
+    libtool
     build-essential
     libmosquittopp-dev
     libmosquitto-dev
@@ -23,11 +24,13 @@ APT_INCLUDES="
     libglib2.0-dev
     libpopt-dev
     libdw-dev
+    liburcu-dev
     uuid-dev
     libxml2-dev
     bison
     flex
     python3
+    python
     " \
 APT_PROXY=$PROXY \
 BUILD_KERNEL=true \
