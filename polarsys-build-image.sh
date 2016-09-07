@@ -31,6 +31,7 @@ APT_INCLUDES="
     flex
     python3
     python
+    vim
     " \
 APT_PROXY=$PROXY \
 BUILD_KERNEL=true \
