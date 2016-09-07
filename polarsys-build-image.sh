@@ -7,6 +7,8 @@ PROXY=http://127.0.0.1:3142
 RELEASE="stretch" \
 RPI_MODEL=2 \
 APT_INCLUDES="
+    autoconf
+    automake
     build-essential
     libmosquittopp-dev
     libmosquitto-dev
@@ -21,6 +23,11 @@ APT_INCLUDES="
     libglib2.0-dev
     libpopt-dev
     libdw-dev
+    uuid-dev
+    libxml2-dev
+    bison
+    flex
+    python3
     " \
 APT_PROXY=$PROXY \
 BUILD_KERNEL=true \
