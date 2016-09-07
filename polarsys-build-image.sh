@@ -36,6 +36,7 @@ APT_PROXY=$PROXY \
 BUILD_KERNEL=true \
 KERNELSRC_DIR=../linux \
 KERNELSRC_PREBUILT=true \
+KERNEL_REMOVESRC=false \
 HOSTNAME="polarsys-rover" \
 CHROOT_SCRIPTS="../scripts" \
 ./rpi23-gen-image.sh
