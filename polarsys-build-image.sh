@@ -10,10 +10,17 @@ APT_INCLUDES=" \
     build-essential \
     libmosquittopp-dev \
     libmosquitto-dev \
+    mosquitto \
+    mosquitto-clients \
     pkg-config \
     protobuf-compiler \
     libprotobuf-dev \
     libboost-program-options-dev \
+    libelf-dev
+    git
+    libglib2.0-dev
+    libpopt-dev
+    libdw-dev
     " \
 APT_PROXY=$PROXY \
 BUILD_KERNEL=true \
