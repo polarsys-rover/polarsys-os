@@ -19,4 +19,5 @@ BUILD_KERNEL=true \
 KERNELSRC_DIR=../linux \
 KERNELSRC_PREBUILT=true \
 HOSTNAME="polarsys-rover" \
+CHROOT_SCRIPTS="../scripts" \
 ./rpi23-gen-image.sh
