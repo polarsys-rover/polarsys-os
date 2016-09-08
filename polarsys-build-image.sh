@@ -9,6 +9,7 @@ RPI_MODEL=2 \
 APT_INCLUDES="
     autoconf
     automake
+    curl
     libtool
     build-essential
     libmosquittopp-dev
@@ -32,6 +33,8 @@ APT_INCLUDES="
     python3
     python
     vim
+    lttng-tools
+    liblttng-ust-dev
     " \
 APT_PROXY=$PROXY \
 BUILD_KERNEL=true \
