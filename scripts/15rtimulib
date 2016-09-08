@@ -1,0 +1,6 @@
+echo "deb http://archive.raspberrypi.org/debian/ jessie main" > /etc/apt/sources.list.d/raspberrypi.list
+
+curl https://archive.raspberrypi.org/debian/raspberrypi.gpg.key | apt-key add -
+
+apt-get -q -yy update
+apt-get -q -yy install librtimulib-dev 

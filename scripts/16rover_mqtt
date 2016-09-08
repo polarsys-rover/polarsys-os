@@ -1,0 +1,10 @@
+set -x
+set -e
+
+cd /root
+git clone https://github.com/polarsys-rover/polarsys-userspace
+cd polarsys-userspace/rover_mqtt
+
+./bootstrap
+./configure
+make
