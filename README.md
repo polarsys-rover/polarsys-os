@@ -25,7 +25,8 @@ The build scripts have a few prerequisites:
         binfmt-support \
         bmap-tools \
         whois \
-        crossbuild-essential-armhf
+        crossbuild-essential-armhf \
+        bc
 
 This repository references other repositories through git submodules.
 You can checkout all of them using the `--recursive` flag when cloning:
