@@ -27,7 +27,8 @@ The build scripts have a few prerequisites:
         whois \
         crossbuild-essential-armhf \
         bc \
-        debian-archive-keyring
+        debian-archive-keyring \
+        apt-cacher-ng
 
 This repository references other repositories through git submodules.
 You can checkout all of them using the `--recursive` flag when cloning:
