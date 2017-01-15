@@ -26,7 +26,8 @@ The build scripts have a few prerequisites:
         bmap-tools \
         whois \
         crossbuild-essential-armhf \
-        bc
+        bc \
+        debian-archive-keyring
 
 This repository references other repositories through git submodules.
 You can checkout all of them using the `--recursive` flag when cloning:
