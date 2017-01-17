@@ -30,11 +30,23 @@ APT_INCLUDES="
     libxml2-dev
     bison
     flex
-    python3
-    python
+    python3-dev
+    python-dev
     vim
     lttng-tools
     liblttng-ust-dev
+    less
+    net-tools
+    gdb gdbserver
+    avahi-utils
+    babeltrace
+    firmware-realtek
+    firmware-ralink
+    iw
+    wireless-tools
+    hostapd
+    dnsmasq
+    net-tools
     " \
 APT_PROXY=$PROXY \
 BUILD_KERNEL=true \
